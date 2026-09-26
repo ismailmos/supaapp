@@ -3,9 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>SupaApp</title>
+  <!-- Load Supabase Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <h1>SupaApp is Live!</h1>
-  <p>Connected to Vercel and Supabase.</p>
+  <h1>SupaApp Dashboard</h1>
+  <div id="data">Loading database data...</div>
+
+  <script>
+    // Initialize Supabase Client
+    const SUPABASE_URL = 'https://llksepfzzhubpxsqleza.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_194rXps4wjdznz1NmiEm_g_mAwyzANs';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function fetchData() {
+      // Replace 'YOUR_TABLE_NAME' with an actual table name from your Supabase database
+      const { data, error } = await _supabase.from('YOUR_TABLE_NAME').select('*');
+      
+      if (error) {
+        document.getElementById('data').innerText = 'Error loading data: ' + error.message;
+      } else {
+        document.getElementById('data').innerText = JSON.stringify(data, null, 2);
+      }
+    }
+
+    fetchData();
+  </script>
 </body>
 </html>
